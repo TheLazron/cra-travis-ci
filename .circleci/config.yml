@@ -16,7 +16,7 @@ jobs:
       - checkout
       - run: 
           name: Building image with docker
-          command: docker build -t build -f Dockerfile.dev
+          command: docker build -t build -f Dockerfile.dev .
       - run:
           name: Running Tests
           command: docker run build npm run test --  --coverage
