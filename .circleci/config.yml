@@ -14,4 +14,9 @@ jobs:
       - image: cimg/node:19.8.1
     steps:
       - checkout
-      - run: node -v  
+      - run:
+          name: Installing dependencies
+          command: npm install
+      - run:
+          name: Running Tests
+          command: npm run test 
