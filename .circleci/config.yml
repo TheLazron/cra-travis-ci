@@ -2,10 +2,15 @@ version: 2.1
 
 jobs:
   build-image:
-    docker:
-      - image: circleci/node:14
+    machine: true
     steps:
       - checkout
+      - run:
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+            sudo systemctl start docker
       - run:
           name: Build Docker image
           command: |
@@ -13,10 +18,13 @@ jobs:
             mkdir -p ~/docker-image
             docker save temp-image -o ~/docker-image/temp-image.tar
             ls -lh ~/docker-image
+      - persist_to_workspace:
+          root: ~/docker-image
+          paths:
+            - temp-image.tar
 
   run-image:
-    docker:
-      - image: circleci/node:14
+    machine: true
     steps:
       - attach_workspace:
           at: ~/docker-image
@@ -31,7 +39,8 @@ jobs:
             docker run --rm -p 8080:8080 temp-image
 
 workflows:
-  build-and-test:
+  version: 2
+  build-and-run:
     jobs:
       - build-image
       - run-image:
