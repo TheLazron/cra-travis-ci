@@ -33,14 +33,19 @@ jobs:
       - attach_workspace:
           at: ~/docker-image
       - run:
+          name: List workspace directory
+          command: |
+            cd ~/docker-image
+            ls -al
+      - run:
           name: Load Docker image
           command: |
-            docker load -i temp-image.tar
+            docker load -i ~/docker-image/temp-image.tar
             docker images
       - run:
           name: Run Docker container
           command: |
-            docker run --rm -p 8080:8080 temp-image
+            docker run temp-image:temp-tag -- --coverage
 
 workflows:
   version: 2
