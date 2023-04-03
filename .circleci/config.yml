@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Run Docker container
           command: |
-            docker run temp-image -- --coverage
+            docker run temp-image npm run test -- --coverage
 
 workflows:
   version: 2
