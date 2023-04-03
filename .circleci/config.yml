@@ -7,6 +7,9 @@ workflows:
   build-and-test:
     jobs:
       - build-image
+      - run-image:
+          requires:
+            - build-image
 
 
 # if there is only one job then it has to be named build
@@ -19,5 +22,19 @@ jobs:
           image: temp-image
           dockerfile: Dockerfile.dev
           tag: temp-tag
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:
+            - temp-image.tar
 
-
+  run-image:
+    executor: docker/machine
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Load Docker Image
+          command: docker load --input temp-image.tar
+      - run:
+          name: Run Docker Image
+          command: docker run temp-image:temp-tag
