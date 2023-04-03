@@ -4,19 +4,19 @@ version: 2.1
 workflows:
   test-deploy:
     jobs:
-      - test
+      - build
 
 
 # if there is only one job then it has to be named build
 jobs:
-  test:
-    docker: 
-      - image: cimg/node:19.8.1
+  build:
+    docker:
+      - image: docker:stable
     steps:
       - checkout
-      - run:
-          name: Installing dependencies
-          command: npm install
+      - run: 
+          name: Building image with docker
+          command: docker build -t build -f Dockerfile.dev
       - run:
           name: Running Tests
-          command: npm run test 
+          command: docker run build npm run test --  --coverage
