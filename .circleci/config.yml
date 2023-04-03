@@ -18,6 +18,10 @@ jobs:
             mkdir -p ~/docker-image
             docker save temp-image -o ~/docker-image/temp-image.tar
             ls -lh ~/docker-image
+      - run:
+          name: Verify persisted image
+          command: |
+            ls -lh ~/docker-image
       - persist_to_workspace:
           root: ~/docker-image
           paths:
