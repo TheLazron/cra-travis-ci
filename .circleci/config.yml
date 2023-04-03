@@ -1,22 +1,57 @@
 version: 2.1
 
-
-workflows:
-  test-deploy:
-    jobs:
-      - test
-
-
-# if there is only one job then it has to be named build
 jobs:
-  test:
-    docker: 
-      - image: cimg/node:19.8.1
+  build-image:
+    machine: true
     steps:
       - checkout
       - run:
-          name: Installing dependencies
-          command: npm install
+          name: Install Docker
+          command: |
+            sudo apt-get update
+            sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+            sudo systemctl start docker
       - run:
-          name: Running Tests
-          command: npm run test 
+          name: Build Docker image
+          command: |
+            docker build -t temp-image -f Dockerfile.dev .
+            mkdir -p ~/docker-image
+            docker save temp-image -o ~/docker-image/temp-image.tar
+            ls -lh ~/docker-image
+      - run:
+          name: Verify persisted image
+          command: |
+            ls -lh ~/docker-image
+      - persist_to_workspace:
+          root: ~/docker-image
+          paths:
+            - temp-image.tar
+
+  run-image:
+    machine: true
+    steps:
+      - attach_workspace:
+          at: ~/docker-image
+      - run:
+          name: List workspace directory
+          command: |
+            cd ~/docker-image
+            ls -al
+      - run:
+          name: Load Docker image
+          command: |
+            docker load -i ~/docker-image/temp-image.tar
+            docker images
+      - run:
+          name: Run Docker container
+          command: |
+            docker run temp-image npm run test -- --coverage
+
+workflows:
+  version: 2
+  build-and-run:
+    jobs:
+      - build-image
+      - run-image:
+          requires:
+            - build-image
