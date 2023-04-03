@@ -1,7 +1,34 @@
-orbs:
-  docker: circleci/docker@2.2.0
 version: 2.1
 
+jobs:
+  build-image:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t temp-image -f Dockerfile.dev .
+            mkdir -p ~/docker-image
+            docker save temp-image -o ~/docker-image/temp-image.tar
+            ls -lh ~/docker-image
+
+  run-image:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - attach_workspace:
+          at: ~/docker-image
+      - run:
+          name: Load Docker image
+          command: |
+            docker load -i temp-image.tar
+            docker images
+      - run:
+          name: Run Docker container
+          command: |
+            docker run --rm -p 8080:8080 temp-image
 
 workflows:
   build-and-test:
@@ -10,31 +37,3 @@ workflows:
       - run-image:
           requires:
             - build-image
-
-
-# if there is only one job then it has to be named build
-jobs:
-  build-image:
-    executor: docker/machine
-    steps:
-      - checkout
-      - docker/build:
-          image: temp-image
-          dockerfile: Dockerfile.dev
-          tag: temp-tag
-      - persist_to_workspace:
-          root: /tmp/workspace
-          paths:
-            - temp-image.tar
-
-  run-image:
-    executor: docker/machine
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: Load Docker Image
-          command: docker load --input temp-image.tar
-      - run:
-          name: Run Docker Image
-          command: docker run temp-image:temp-tag
