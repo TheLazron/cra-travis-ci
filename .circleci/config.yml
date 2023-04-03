@@ -1,22 +1,23 @@
+orbs:
+  docker: circleci/docker@2.2.0
 version: 2.1
 
 
 workflows:
-  test-deploy:
+  build-and-test:
     jobs:
-      - build
+      - build-image
 
 
 # if there is only one job then it has to be named build
 jobs:
-  build:
-    docker:
-      - image: docker:stable
+  build-image:
+    executor: docker/machine
     steps:
       - checkout
-      - run: 
-          name: Building image with docker
-          command: docker build -t build -f Dockerfile.dev .
-      - run:
-          name: Running Tests
-          command: docker run build npm run test --  --coverage
+      - docker/build:
+          image: temp-image
+          dockerfile: Dockerfile.dev
+          tag: temp-tag
+
+
