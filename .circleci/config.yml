@@ -1,0 +1,17 @@
+version: 2.1
+
+
+workflows:
+  test-deploy:
+    jobs:
+      - test
+
+
+# if there is only one job then it has to be named build
+jobs:
+  test:
+    docker: 
+      - image: cimg/node:
+    steps:
+      - checkout
+      - run: node -v  
