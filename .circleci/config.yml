@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Run Docker container
           command: |
-            docker run temp-image:temp-tag -- --coverage
+            docker run temp-image -- --coverage
 
 workflows:
   version: 2
