@@ -61,10 +61,10 @@ jobs:
           command: docker load -i ~/docker-image/temp-image.tar
       - run:
           name: Tag Docker image
-          command: docker tag temp-image circleregistry.azure.io/shouldwork
+          command: docker tag temp-image circleregistry.azurecr.io/shouldwork
       - run:
           name: Push Docker image to Azure Container Registry
-          command: docker push circleregistry.azure.io/shouldwork
+          command: docker push circleregistry.azurecr.io/shouldwork
 
 workflows:
   version: 2
