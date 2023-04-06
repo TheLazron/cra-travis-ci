@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>React App Docker Circle CI CD</p>
+        <p>React App </p>
         <a
           className="App-link"
           href="https://reactjs.org"
