@@ -17,7 +17,7 @@ function App() {
         >
           learn react app
         </a>
-        <p>Feat Works</p>
+        <p>Feat Workflow</p>
       </header>
     </div>
   );
