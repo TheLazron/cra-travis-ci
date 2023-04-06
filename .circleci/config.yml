@@ -72,7 +72,11 @@ workflows:
   version: 2
   build-and-run:
     jobs:
-      - build-image
+      - build-image:
+          filters:
+            branches:
+              only:
+                - master
       - run-image:
           requires:
             - build-image
