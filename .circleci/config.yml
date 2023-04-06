@@ -56,9 +56,9 @@ jobs:
           command: |
             git fetch origin master
             git checkout master
-            git merge feat
-            git commit -m "merged feat with master"
-            git push master
+            # git merge feat
+            # git commit -m "merged feat with master"
+            # git push master
 
   push-image:
     machine: true
