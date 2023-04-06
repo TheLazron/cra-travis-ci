@@ -50,11 +50,12 @@ jobs:
   merge-branch:
     machine: true
     steps:
+      - checkout
       - run:
           name: Merge feature with master branch
           command: |
             git checkout master
-            git merge feature
+            git merge origin/feat
             git push origin master
 
   push-image:
@@ -89,10 +90,13 @@ workflows:
       - run-image:
           requires:
             - build-image
+      - merge-branch:
+          requires:
+            - run-image
       - push-image:
           filters:
             branches:
               only:
                 - master
           requires:
-            - run-image
+            - merge-branch
