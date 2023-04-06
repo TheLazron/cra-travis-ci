@@ -50,6 +50,7 @@ jobs:
   merge-branch:
     machine: true
     steps:
+      - checkout
       - run:
           name: Merge feature with master branch
           command: |
@@ -98,4 +99,4 @@ workflows:
               only:
                 - master
           requires:
-            - run-image
+            - merge-branch
