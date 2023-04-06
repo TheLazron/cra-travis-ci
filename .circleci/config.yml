@@ -51,6 +51,7 @@ jobs:
   push-image:
     machine: true
     steps:
+      - checkout
       - run:
           name: Building production image
           command: docker build -t p1 .
