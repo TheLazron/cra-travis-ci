@@ -46,6 +46,16 @@ jobs:
           name: Run Docker container
           command: |
             docker run temp-image npm run test -- --coverage
+    
+  merge-branch:
+    machine: true
+    steps:
+      - run:
+          name: Merge feature with master branch
+          command: |
+            git checkout master
+            git merge feature
+            git push origin master
 
 
   push-image:
@@ -76,10 +86,14 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - feat
       - run-image:
           requires:
             - build-image
       - push-image:
+          filters:
+              branches:
+                only:
+                  - master
           requires:
             - run-image
