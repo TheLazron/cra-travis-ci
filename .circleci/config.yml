@@ -54,9 +54,12 @@ jobs:
       - run:
           name: Merge feature with master branch
           command: |
+            git fetch origin master
             git checkout master
             git merge feat
-            git push origin master
+            git commit -m "merged feat with master"
+            git push master
+            git fetch origin master
 
   push-image:
     machine: true
