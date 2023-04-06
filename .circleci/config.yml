@@ -89,6 +89,9 @@ workflows:
       - run-image:
           requires:
             - build-image
+      - merge-branch:
+          requires:
+            - run-image
       - push-image:
           filters:
             branches:
