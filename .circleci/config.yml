@@ -55,7 +55,7 @@ jobs:
           name: Merge feature with master branch
           command: |
             git checkout master
-            git merge origin/feat
+            git merge feat
             git push origin master
 
   push-image:
