@@ -8,6 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>React App CIRCLE change</p>
+        <p>Feat changes</p>
         <a
           className="App-link"
           href="https://reactjs.org"
