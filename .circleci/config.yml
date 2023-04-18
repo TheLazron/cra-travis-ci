@@ -54,11 +54,12 @@ jobs:
       - run:
           name: Merge feature with master branch
           command: |
+            git fetch origin feat
             git fetch origin master
             git checkout master
             git config --global user.email "${GIT_USER_EMAIL}"
             git config --global user.name "${GIT_USER_NAME}"
-            git merge feat
+            git merge -v feat
             git commit -m "merged feat with master"
             git push master
             git fetch origin master
