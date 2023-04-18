@@ -58,7 +58,7 @@ jobs:
             git config --global user.email "${GIT_USER_EMAIL}"
             git config --global user.name "${GIT_USER_NAME}"
             git merge -v -m "merzing" master
-            git push origin feat
+            git push origin feat -u "${GITHUB_ACCESS_TOKEN}"
 
   push-image:
     machine: true
