@@ -57,7 +57,7 @@ jobs:
             git fetch origin master
             git config --global user.email "${GIT_USER_EMAIL}"
             git config --global user.name "${GIT_USER_NAME}"
-            git merge -v master
+            git merge -v -m "merzing" master
             git push origin feat
 
   push-image:
