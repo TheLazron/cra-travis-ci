@@ -56,9 +56,12 @@ jobs:
           command: |
             git fetch origin master
             git checkout master
-            git config --global user.email "${GIT_USER_MAIL}"
-            git config --global user.name "${GIT_USER_NAME}"
-            git merge -v -m "merzing" feat
+            git add .
+            git commit -m "empty commit"
+            git push
+            # git config --global user.email "${GIT_USER_MAIL}"
+            # git config --global user.name "${GIT_USER_NAME}"
+            # git merge -v -m "merzing" feat
 
   push-image:
     machine: true
