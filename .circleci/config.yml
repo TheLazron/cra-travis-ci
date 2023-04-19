@@ -55,9 +55,10 @@ jobs:
           name: Merge feature with master branch
           command: |
             git fetch origin master
+            git checkout master
             git config --global user.email "${GIT_USER_MAIL}"
             git config --global user.name "${GIT_USER_NAME}"
-            git merge -v -m "merzing" master
+            git merge -v -m "merzing" feat
 
   push-image:
     machine: true
